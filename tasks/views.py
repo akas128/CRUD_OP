@@ -4,14 +4,9 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
 
 
 class TaskList(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
     """
     List all tasks, or create a new task.
     """
@@ -29,7 +24,7 @@ class TaskList(APIView):
 
 class TaskDetail(APIView):
     """
-    Retrieve, update or delete a snippet instance.
+    Retrieve, update or delete a task instance.
     """
     def get_object(self, pk):
         try:
@@ -39,7 +34,7 @@ class TaskDetail(APIView):
 
     def get(self, request, pk, format=None):
         task = self.get_object(pk)
-        serializer = TasksSerializer(snippet)
+        serializer = TasksSerializer(task)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
